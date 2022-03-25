@@ -1,0 +1,8 @@
+SELECT H.HandoffSK, H.HandoffID, H.ProjectNo, B.SourceLanguageCode, B.HandoffStateName, B.Handoff, T.CreatedDate, T.CompletedDate, T.Wordcount, Priorities,
+CASE WHEN B.HandoffClassification = 'H' THEN (Priorities = 0)
+	 WHEN B.HandoffClassification = 'M' THEN (Priorities = 1)
+	 WHEN B.HandoffClassification = 'L' THEN (Priorities = 2)
+	 ELSE (Priorities = 3)
+END AS Classification_Case
+FROM Handoff H, Base B, Tasks T
+WHERE H.HandoffID = T.HandoffID AND H.HandoffSK = B.HandoffSK AND NOT B.HandoffStateName = 'Canceled';
